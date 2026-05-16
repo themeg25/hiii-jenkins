@@ -1,0 +1,19 @@
+public class App {
+
+    public static void main(String[] args) {
+
+        System.out.println("JAVA DEVOPS APPLICATION RUNNING");
+
+        while(true){
+
+            System.out.println("Application Active");
+
+            try{
+                Thread.sleep(5000);
+            }
+            catch(Exception e){
+                System.out.println(e);
+            }
+        }
+    }
+}

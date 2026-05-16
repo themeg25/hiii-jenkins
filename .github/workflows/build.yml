@@ -1,0 +1,41 @@
+name: Java DevOps CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  build-and-deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set Up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build JAR File
+        run: mvn clean package
+
+      - name: Show Target Files
+        run: ls target
+
+      - name: Build Docker Image
+        run: docker build -t java-devops-app .
+
+      - name: Run Docker Container
+        run: |
+          docker stop java-container || true
+          docker rm java-container || true
+          docker run -d --name java-container java-devops-app
+
+      - name: Verify Container
+        run: docker ps
